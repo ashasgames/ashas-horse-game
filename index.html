@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asha’s Horse Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background: #e6e2db;
+      color: #2e2e2e;
+    }
+
+    .game {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .stats {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      margin: 6px 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 8px;
+      background: #6b7b5a;
+      color: white;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #556246;
+    }
+
+    .log {
+      background: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      min-height: 80px;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="game">
+    <h1>🐎 Asha’s Horse Game</h1>
+
+    <div class="stats">
+      <div class="stat">Horse Trust: <span id="trust">50</span></div>
+      <div class="stat">Stamina: <span id="stamina">50</span></div>
+      <div class="stat">Rider Skill: <span id="skill">10</span></div>
+      <div class="stat">Day: <span id="day">1</span></div>
+    </div>
+
+    <button onclick="brush()">Brush Horse</button>
+    <button onclick="feed()">Feed Horse</button>
+    <button onclick="train()">Training Ride</button>
+    <button onclick="rest()">Rest Day</button>
+
+    <div class="log" id="log">
+      You arrive at the stable. Your horse watches you quietly.
+    </div>
+  </div>
+
+  <script>
+    let trust = 50;
+    let stamina = 50;
+    let skill = 10;
+    let day = 1;
+
+    function update() {
+      document.getElementById("trust").innerText = trust;
+      document.getElementById("stamina").innerText = stamina;
+      document.getElementById("skill").innerText = skill;
+      document.getElementById("day").innerText = day;
+    }
+
+    function log(text) {
+      document.getElementById("log").innerText = text;
+    }
+
+    function nextDay() {
+      day++;
+      stamina = Math.min(stamina + 5, 100);
+      update();
+    }
+
+    function brush() {
+      trust += 3;
+      log("You brush your horse slowly. It relaxes under your hands.");
+      nextDay();
+    }
+
+    function feed() {
+      stamina += 5;
+      trust += 1;
+      log("Your horse eats calmly. It seems more comfortable with you.");
+      nextDay();
+    }
+
+    function train() {
+      if (stamina < 10) {
+        log("Your horse is too tired to train today.");
+        return;
+      }
+
+      stamina -= 10;
+      skill += 2;
+
+      if (trust < 40) {
+        log("The ride is tense. Your horse spooks and resists.");
+      } else {
+        trust += 2;
+        log("The ride feels smooth. You and your horse move together.");
+      }
+
+      nextDay();
+    }
+
+    function rest() {
+      stamina += 10;
+      trust += 1;
+      log("You give your horse a rest day. Sometimes that’s the best choice.");
+      nextDay();
+    }
+
+    update();
+  </script>
+</body>
+</html>
